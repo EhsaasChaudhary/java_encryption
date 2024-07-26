@@ -19,17 +19,18 @@ public class encryption {
         File folder = new File(folderPath);
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
         
-        if (files.length<=5) {
+        if (files.length<5) {
             filegenerator.main(new String[] { 
                 String.valueOf(defaultNumOfFiles), 
                 String.valueOf(defaultFilenameLength), 
                 String.valueOf(defaultCodeLength) 
             });
         }
+        File[] myfiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
         
-        if (files != null && files.length > 0) {
+        if (myfiles != null && myfiles.length > 0) {
             Random random = new Random();
-            File randomFile = files[random.nextInt(files.length)];
+            File randomFile = myfiles[random.nextInt(myfiles.length)];
             
             try {
                 String content = new String(Files.readAllBytes(Paths.get(randomFile.getAbsolutePath())));
