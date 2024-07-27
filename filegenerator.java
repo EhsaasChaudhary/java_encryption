@@ -63,6 +63,7 @@ public class filegenerator {
      */
     private static String generateRandomCode(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+        // String characters = "ABC";
         StringBuilder code = new StringBuilder();
         Random random = new Random();
 
