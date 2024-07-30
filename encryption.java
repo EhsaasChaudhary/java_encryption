@@ -15,7 +15,7 @@ public class encryption {
         int defaultFilenameLength = 4; 
         int defaultMinCodeLength = 3; 
         int defaultMaxCodeLength = 10; 
-        
+
         String encryptedPassword = "";
         Map<String, String> map = new HashMap<>(); 
 
@@ -67,6 +67,7 @@ public class encryption {
                 String fileNameWithoutExtension = randomFile.getName().replaceFirst("[.][^.]+$", "");
                 encryptedPassword += fileNameWithoutExtension;
 
+                System.out.println("original Password: " + password + "\n");
                 System.out.println("Encrypted Password: " + encryptedPassword + "\n");
 
             } catch (IOException e) {
