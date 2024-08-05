@@ -4,84 +4,69 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Scanner;
 
-public class encryption {
+public class Encryption {
+
+    private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
+
     public static void main(String[] args) {
+        int defaultNumOfFiles = 5;
+        int defaultFilenameLength = 4;
+        int defaultCodeLength = 5;
 
-        // Default configuration values
-        int defaultNumOfFiles = 5; 
-        int defaultFilenameLength = 4; 
-        int defaultMinCodeLength = 3; 
-        int defaultMaxCodeLength = 10; 
+        try (Scanner sc = new Scanner(System.in)) {
+            System.out.print("Enter the password to be encrypted: ");
+            String password = sc.nextLine();
 
-        String encryptedPassword = "";
-        Map<String, String> map = new HashMap<>(); 
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("");
-        System.out.print("Enter the password to be encrypted: ");
-        String password = sc.nextLine();
-        System.out.println("");
-
-        String folderPath = "C:\\Ehsaas_college\\java_encription\\logicfiles";
-
-        File folder = new File(folderPath);
-        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-
-        if (files.length < 5) {
-            filegenerator.main(new String[] {
-                    String.valueOf(defaultNumOfFiles),
-                    String.valueOf(defaultFilenameLength),
-                    String.valueOf(defaultMinCodeLength),
-                    String.valueOf(defaultMaxCodeLength)
-            });
-        }
-        
-        File[] myfiles = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-
-        if (myfiles != null && myfiles.length > 0) {
-            Random random = new Random();
-            File randomFile = myfiles[random.nextInt(myfiles.length)];
-
-            try {
-                String content = new String(Files.readAllBytes(Paths.get(randomFile.getAbsolutePath())));
-
-                System.out.println("Randomly selected file: \n" + randomFile.getName());
-                System.out.println("");
-
-                map = parseContentToMap(content);
-
-                System.out.println("Parsed HashMap:\n");
-                System.out.println(map  + "\n");
-
-                for (int i = 0; i < password.length(); i++) {
-                    String charStr = String.valueOf(password.charAt(i));
-                    if (map.containsKey(charStr)) {
-                        encryptedPassword += map.get(charStr);
-                    }
-                }
-
-                String fileNameWithoutExtension = randomFile.getName().replaceFirst("[.][^.]+$", "");
-                encryptedPassword += fileNameWithoutExtension;
-
-                System.out.println("original Password: " + password + "\n");
-                System.out.println("Encrypted Password: " + encryptedPassword + "\n");
-
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (password.isEmpty()) {
+                System.out.println("Password cannot be empty.");
+                return;
             }
-        } else {
-            System.out.println("No .txt files found in the specified folder.");
-        }
 
-        sc.close();
+            File folder = new File(FOLDER_PATH);
+            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+
+            if (files == null || files.length < defaultNumOfFiles) {
+                FileGenerator.main(new String[]{
+                        String.valueOf(defaultNumOfFiles),
+                        String.valueOf(defaultFilenameLength),
+                        String.valueOf(defaultCodeLength)
+                });
+                files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+            }
+
+            Optional<File> randomFile = Optional.ofNullable(files)
+                    .filter(f -> f.length > 0)
+                    .map(f -> f[new Random().nextInt(f.length)]);
+
+            if (randomFile.isPresent()) {
+                try {
+                    String content = Files.readString(Paths.get(randomFile.get().getAbsolutePath()));
+                    Map<String, String> map = parseContentToMap(content);
+
+                    StringBuilder encryptedPassword = new StringBuilder();
+                    for (char c : password.toCharArray()) {
+                        String charStr = String.valueOf(c);
+                        encryptedPassword.append(map.getOrDefault(charStr, charStr));
+                    }
+
+                    String fileNameWithoutExtension = randomFile.get().getName().replaceFirst("[.][^.]+$", "");
+                    encryptedPassword.append(fileNameWithoutExtension);
+
+                    System.out.println("Encrypted Password: " + encryptedPassword);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("No .txt files found in the specified folder.");
+            }
+        }
     }
 
-    //Parses the content of the file into a Map.
-    
     private static Map<String, String> parseContentToMap(String content) {
         Map<String, String> map = new HashMap<>();
         String[] lines = content.split("\n");
@@ -89,9 +74,7 @@ public class encryption {
         for (String line : lines) {
             String[] parts = line.split(":", 2);
             if (parts.length == 2) {
-                String key = parts[0];
-                String value = parts[1].trim();
-                map.put(key, value);
+                map.put(parts[0].trim(), parts[1].trim());
             }
         }
 

@@ -9,21 +9,19 @@ import java.util.Random;
  * A class to generate multiple files with random names and save different
  * HashMaps in each file.
  */
-public class filegenerator {
+public class FileGenerator {
 
     public static void main(String[] args) {
         // Default values
         int numOfFiles = 5;
         int filenameLength = 4;
-        int mincodeLength = 3;
-        int maxcodeLength = 10;
+        int codeLength = 5;
 
         if (args.length >= 3) {
             try {
                 numOfFiles = Integer.parseInt(args[0]);
                 filenameLength = Integer.parseInt(args[1]);
-                mincodeLength = Integer.parseInt(args[2]);
-                maxcodeLength = Integer.parseInt(args[3]);
+                codeLength = Integer.parseInt(args[2]);
             } catch (NumberFormatException e) {
                 System.err.println("Invalid number format in arguments. Using default values.");
             }
@@ -40,7 +38,7 @@ public class filegenerator {
 
         // Generate files with random names and save different HashMaps
         for (int i = 0; i < numOfFiles; i++) {
-            HashMap<Character, String> map = generateRandomHashMap(mincodeLength, maxcodeLength);
+            HashMap<Character, String> map = generateRandomHashMap(codeLength);
 
             String fileName = generateRandomFilename(filenameLength) + ".txt";
             File file = new File(directory, fileName);
@@ -83,29 +81,12 @@ public class filegenerator {
     // Generates a HashMap where each key is a character and each value is a
     // randomly generated string of specified length.
     
-    private static HashMap<Character, String> generateRandomHashMap(int mincodeLength, int maxcodeLength) {
+    private static HashMap<Character, String> generateRandomHashMap(int codeLength) {
         HashMap<Character, String> map = new HashMap<>();
-        String characters = " ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-        Random random = new Random();
-
-        // Populate the HashMap with each character as the key and a random code as the value
-        // for (char c : characters.toCharArray()) {
-        //     if (Character.isDigit(c)) {
-        //         map.put(c, generateRandomCode(codeLength));
-        //     }
-        //     else if(Character.isUpperCase(c)){
-        //          map.put(c, generateRandomCode(codeLength));
-        //     }
-        //     else if(Character.isLowerCase(c)){
-        //          map.put(c, generateRandomCode(codeLength));
-        //     }
-        //     else{
-        //          map.put(c, generateRandomCode(codeLength));
-        //     }
-        // }
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
 
         for (char c : characters.toCharArray()) {
-                map.put(c, generateRandomCode(random.nextInt(mincodeLength,maxcodeLength)));
+                map.put(c, generateRandomCode(codeLength));
         }
 
         return map;
@@ -120,7 +101,7 @@ public class filegenerator {
                 writer.write(entry.getKey() + ": " + entry.getValue());
                 writer.newLine();
             }
-            System.out.println("Saved HashMap to file: " + file.getPath());
+            // System.out.println("Saved HashMap to file: " + file.getPath());
         } catch (IOException e) {
             System.err.println("An error occurred while writing to file: " + file.getPath());
             e.printStackTrace();
