@@ -31,7 +31,7 @@ public class Decryption {
                     Map<String, String> map = parseContentToMap(content);
 
                     String password = decryptEncryptedString(encryptedString.substring(0, encryptedString.length() - defaultFilenameLength), map);
-
+                    
                     System.out.println("Original Password: " + password);
 
                 } catch (IOException e) {

@@ -24,6 +24,7 @@ public class EncryptDecrypt {
                 }
             }
             System.out.println("Ending execution.");
+            sc.close();
     }
 
     private static void printMenu() {
