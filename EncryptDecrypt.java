@@ -1,4 +1,4 @@
-import java.util.InputMismatchException;
+// import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class EncryptDecrypt {
@@ -9,7 +9,6 @@ public class EncryptDecrypt {
 
             while (operation != 3) {
                 printMenu();
-                try {
                     operation = sc.nextInt();
                     sc.nextLine(); // Consume the newline character
 
@@ -18,10 +17,6 @@ public class EncryptDecrypt {
                     } else {
                         System.out.println("Invalid Operation Code. Please enter a valid number.");
                     }
-                } catch (InputMismatchException e) {
-                    System.out.println("Invalid input. Please enter a valid number.");
-                    sc.nextLine(); // Clear the invalid input
-                }
             }
             System.out.println("Ending execution.");
             sc.close();

@@ -57,14 +57,30 @@ public class Decryption {
         return map;
     }
 
+    // private static String decryptEncryptedString(String encryptedString, Map<String, String> map) {
+    //     StringBuilder password = new StringBuilder();
+
+    //     for (int i = 0; i < encryptedString.length(); i += 5) {
+    //         String group = encryptedString.substring(i, Math.min(i + 5, encryptedString.length()));
+    //         password.append(map.getOrDefault(group, group));
+    //     }
+
+    //     return password.toString();
+    // }
+
     private static String decryptEncryptedString(String encryptedString, Map<String, String> map) {
         StringBuilder password = new StringBuilder();
 
-        for (int i = 0; i < encryptedString.length(); i += 5) {
-            String group = encryptedString.substring(i, Math.min(i + 5, encryptedString.length()));
-            password.append(map.getOrDefault(group, group));
+        while (!encryptedString.isEmpty()) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                String key = entry.getKey();
+                if (encryptedString.startsWith(key)) {
+                    password.append(entry.getValue());  // Append the matched value to the result
+                    encryptedString = encryptedString.substring(key.length());  // Remove the matched substring
+                    break;  // Break the loop to start again with the modified string
+                }
+            }
         }
-
         return password.toString();
     }
 }

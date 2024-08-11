@@ -12,9 +12,10 @@ public class BetterEncryption {
     private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 
     public static void main(String[] args) {
-        int defaultNumOfFiles = 5;
+        // int defaultNumOfFiles = 5;
         int filenameLength = 4;
-        int defaultCodeLength = 5;
+        int defaultmaxCodeLength = 10;
+        int defaultminCodeLength = 3;
 
         try (Scanner sc = new Scanner(System.in)) {
             System.out.print("Enter the password to be encrypted: ");
@@ -26,7 +27,7 @@ public class BetterEncryption {
             }
 
             String defaultFilename = generateRandomFilename(filenameLength) + ".txt";
-            generateFiles(defaultNumOfFiles, defaultFilename, defaultCodeLength, password);
+            generateFiles(defaultFilename, defaultmaxCodeLength, defaultminCodeLength, password);
 
             File targetFile = new File(FOLDER_PATH, defaultFilename);
             if (targetFile.exists() && targetFile.isFile()) {
@@ -42,11 +43,11 @@ public class BetterEncryption {
         }
     }
 
-    private static void generateFiles(int numOfFiles, String filename, int codeLength, String password) {
+    private static void generateFiles(String filename, int maxcodeLength, int mincodeLength, String password) {
         FileGenerator.main(new String[]{
-            String.valueOf(numOfFiles),
             filename,
-            String.valueOf(codeLength),
+            String.valueOf(maxcodeLength),
+            String.valueOf(mincodeLength),
             password
         });
     }

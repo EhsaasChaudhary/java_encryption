@@ -15,14 +15,15 @@ public class FileGenerator {
         // Default values
         int numOfFiles = 1;
         String givenfilename= "";
-        int codeLength = 5;
-        String characString = "Ehsaas";
+        int mincodeLength = 3;
+        int maxcodeLength = 10;
+        String characString = "";
 
         if (args.length >= 4) {
             try {
-                numOfFiles = Integer.parseInt(args[0]);
-                givenfilename = args[1];
-                codeLength = Integer.parseInt(args[2]);
+                givenfilename = args[0];
+                maxcodeLength = Integer.parseInt(args[1]);
+                mincodeLength = Integer.parseInt(args[2]);
                 characString = args[3];
             } catch (NumberFormatException e) {
                 System.err.println("Invalid number format in arguments. Using default values.");
@@ -40,7 +41,7 @@ public class FileGenerator {
 
         // Generate files with random names and save different HashMaps
         for (int i = 0; i < numOfFiles; i++) {
-            HashMap<Character, String> map = generateRandomHashMap(codeLength, characString);
+            HashMap<Character, String> map = generateRandomHashMap(mincodeLength, maxcodeLength, characString);
 
             String fileName = givenfilename;
             File file = new File(directory, fileName);
@@ -69,12 +70,13 @@ public class FileGenerator {
     // Generates a HashMap where each key is a character and each value is a
     // randomly generated string of specified length.
     
-    private static HashMap<Character, String> generateRandomHashMap(int codeLength, String characString) {
+    private static HashMap<Character, String> generateRandomHashMap(int mincodeLength, int maxcodeLength, String characString) {
         HashMap<Character, String> map = new HashMap<>();
         String characters =characString;
+        Random random = new Random();
 
         for (char c : characters.toCharArray()) {
-                map.put(c, generateRandomCode(codeLength));
+                map.put(c, generateRandomCode(random.nextInt(mincodeLength,maxcodeLength)));
         }
         return map;
     }
