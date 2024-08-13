@@ -13,34 +13,34 @@ public class PasswordDecryption {
     public static void main(String[] args) {
         int defaultFilenameLength = 4;
 
-        try (Scanner sc = new Scanner(System.in)) {
-            System.out.print("Enter the encrypted string to be decrypted: ");
-            String encryptedString = sc.nextLine();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the encrypted string to be decrypted: ");
+        String encryptedString = sc.nextLine();
 
-            if (encryptedString.isEmpty()) {
-                System.out.println("Encrypted string cannot be empty.");
-                return;
+        if (encryptedString.isEmpty()) {
+            System.out.println("Encrypted string cannot be empty.");
+            return;
+        }
+
+        String targetFileName = encryptedString.substring(encryptedString.length() - defaultFilenameLength) + ".txt";
+        File targetFile = new File(FOLDER_PATH, targetFileName);
+
+        if (targetFile.exists() && targetFile.isFile()) {
+            try {
+                String content = Files.readString(Paths.get(targetFile.getAbsolutePath()));
+                Map<String, String> map = parseContentToMap(content);
+
+                String password = decryptEncryptedString(
+                        encryptedString.substring(0, encryptedString.length() - defaultFilenameLength), map);
+
+                System.out.println("Original Password: " + password);
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            String targetFileName = encryptedString.substring(encryptedString.length() - defaultFilenameLength) + ".txt";
-            File targetFile = new File(FOLDER_PATH, targetFileName);
-
-            if (targetFile.exists() && targetFile.isFile()) {
-                try {
-                    String content = Files.readString(Paths.get(targetFile.getAbsolutePath()));
-                    Map<String, String> map = parseContentToMap(content);
-
-                    String password = decryptEncryptedString(encryptedString.substring(0, encryptedString.length() - defaultFilenameLength), map);
-                    
-                    System.out.println("Original Password: " + password);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            } else {
-                System.out.println("The file " + targetFileName + " does not exist in the specified folder.");
-            }
+        } else {
+            System.out.println("The file " + targetFileName + " does not exist in the specified folder.");
         }
     }
 
@@ -57,7 +57,6 @@ public class PasswordDecryption {
         return map;
     }
 
-
     private static String decryptEncryptedString(String encryptedString, Map<String, String> map) {
         StringBuilder password = new StringBuilder();
 
@@ -65,9 +64,9 @@ public class PasswordDecryption {
             for (Map.Entry<String, String> entry : map.entrySet()) {
                 String key = entry.getKey();
                 if (encryptedString.startsWith(key)) {
-                    password.append(entry.getValue());  // Append the matched value to the result
-                    encryptedString = encryptedString.substring(key.length());  // Remove the matched substring
-                    break;  // Break the loop to start again with the modified string
+                    password.append(entry.getValue()); // Append the matched value to the result
+                    encryptedString = encryptedString.substring(key.length()); // Remove the matched substring
+                    break; // Break the loop to start again with the modified string
                 }
             }
         }

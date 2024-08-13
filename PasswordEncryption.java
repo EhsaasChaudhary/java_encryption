@@ -12,36 +12,38 @@ public class PasswordEncryption {
     private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 
     public static void main(String[] args) {
+        // default values
         int filenameLength = 4;
         int defaultmaxCodeLength = 10;
         int defaultminCodeLength = 3;
 
-        try (Scanner sc = new Scanner(System.in)) {
-            System.out.print("Enter the password to be encrypted: ");
-            String password = sc.nextLine();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the password to be encrypted: ");
+        String password = sc.nextLine();
 
-            if (password.isEmpty()) {
-                System.out.println("Password cannot be empty.");
-                return;
-            }
+        if (password.isEmpty()) {
+            System.out.println("Password cannot be empty.");
+            return;
+        }
 
-            String defaultFilename = generateRandomFilename(filenameLength) + ".txt";
-            generateFiles(defaultFilename, defaultmaxCodeLength, defaultminCodeLength, password);
+        String defaultFilename = generateRandomFilename(filenameLength) + ".txt";
+        generateFiles(defaultFilename, defaultmaxCodeLength, defaultminCodeLength, password);
 
-            File targetFile = new File(FOLDER_PATH, defaultFilename);
-            if (targetFile.exists() && targetFile.isFile()) {
-                String encryptedPassword = encryptPassword(targetFile, password);
-                if (encryptedPassword != null) {
-                    System.out.println("Encrypted Password: " + encryptedPassword);
-                } else {
-                    System.out.println("Error during encryption.");
-                }
+        File targetFile = new File(FOLDER_PATH, defaultFilename);
+        if (targetFile.exists() && targetFile.isFile()) {
+            String encryptedPassword = encryptPassword(targetFile, password);
+            if (encryptedPassword != null) {
+                System.out.println("Encrypted Password: " + encryptedPassword);
             } else {
-                System.out.println("No .txt files found in the specified folder.");
+                System.out.println("Error during encryption.");
             }
+        } else {
+            System.out.println("No .txt files found in the specified folder.");
         }
     }
 
+    // Generate random file name of specific length using the alphanumeric
+    // characters
 
     private static String generateRandomFilename(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -56,16 +58,19 @@ public class PasswordEncryption {
         return code.toString();
     }
 
+    // Generate the file and hashmap containing the ecnryption logic by calling
+    // generateFiles method
 
     private static void generateFiles(String filename, int maxcodeLength, int mincodeLength, String password) {
-        FileGenerator.main(new String[]{
-            filename,
-            String.valueOf(maxcodeLength),
-            String.valueOf(mincodeLength),
-            password
+        FileGenerator.main(new String[] {
+                filename,
+                String.valueOf(maxcodeLength),
+                String.valueOf(mincodeLength),
+                password
         });
     }
 
+    // Encrypt the password provided by the user
 
     private static String encryptPassword(File file, String password) {
         try {
@@ -88,6 +93,7 @@ public class PasswordEncryption {
         }
     }
 
+    // Parse the content of the file to a map
 
     private static Map<String, String> parseContentToMap(String content) {
         Map<String, String> map = new HashMap<>();
