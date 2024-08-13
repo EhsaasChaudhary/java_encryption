@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Decryption {
+public class PasswordDecryption {
 
     private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 
@@ -57,16 +57,6 @@ public class Decryption {
         return map;
     }
 
-    // private static String decryptEncryptedString(String encryptedString, Map<String, String> map) {
-    //     StringBuilder password = new StringBuilder();
-
-    //     for (int i = 0; i < encryptedString.length(); i += 5) {
-    //         String group = encryptedString.substring(i, Math.min(i + 5, encryptedString.length()));
-    //         password.append(map.getOrDefault(group, group));
-    //     }
-
-    //     return password.toString();
-    // }
 
     private static String decryptEncryptedString(String encryptedString, Map<String, String> map) {
         StringBuilder password = new StringBuilder();

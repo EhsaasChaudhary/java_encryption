@@ -7,12 +7,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-public class BetterEncryption {
+public class PasswordEncryption {
 
     private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 
     public static void main(String[] args) {
-        // int defaultNumOfFiles = 5;
         int filenameLength = 4;
         int defaultmaxCodeLength = 10;
         int defaultminCodeLength = 3;
@@ -43,6 +42,21 @@ public class BetterEncryption {
         }
     }
 
+
+    private static String generateRandomFilename(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder code = new StringBuilder();
+        Random random = new Random();
+
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            code.append(characters.charAt(index));
+        }
+
+        return code.toString();
+    }
+
+
     private static void generateFiles(String filename, int maxcodeLength, int mincodeLength, String password) {
         FileGenerator.main(new String[]{
             filename,
@@ -51,6 +65,7 @@ public class BetterEncryption {
             password
         });
     }
+
 
     private static String encryptPassword(File file, String password) {
         try {
@@ -73,18 +88,6 @@ public class BetterEncryption {
         }
     }
 
-    private static String generateRandomFilename(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder code = new StringBuilder();
-        Random random = new Random();
-
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(characters.length());
-            code.append(characters.charAt(index));
-        }
-
-        return code.toString();
-    }
 
     private static Map<String, String> parseContentToMap(String content) {
         Map<String, String> map = new HashMap<>();

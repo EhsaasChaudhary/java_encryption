@@ -50,6 +50,22 @@ public class FileGenerator {
         }
     }
 
+
+    // Generates a HashMap where each key is a character and each value is a
+    // randomly generated string of specified length.
+    
+    private static HashMap<Character, String> generateRandomHashMap(int mincodeLength, int maxcodeLength, String characString) {
+        HashMap<Character, String> map = new HashMap<>();
+        String characters =characString;
+        Random random = new Random();
+
+        for (char c : characters.toCharArray()) {
+                map.put(c, generateRandomCode(random.nextInt(mincodeLength,maxcodeLength)));
+        }
+        return map;
+    }
+
+
     // Generates a random string of specified length using alphanumeric
     // charactersand symbols.
     private static String generateRandomCode(int length) {
@@ -66,20 +82,6 @@ public class FileGenerator {
         return code.toString();
     }
 
-    
-    // Generates a HashMap where each key is a character and each value is a
-    // randomly generated string of specified length.
-    
-    private static HashMap<Character, String> generateRandomHashMap(int mincodeLength, int maxcodeLength, String characString) {
-        HashMap<Character, String> map = new HashMap<>();
-        String characters =characString;
-        Random random = new Random();
-
-        for (char c : characters.toCharArray()) {
-                map.put(c, generateRandomCode(random.nextInt(mincodeLength,maxcodeLength)));
-        }
-        return map;
-    }
 
     // Saves the given HashMap to the specified file. Each key-value pair in the
     // HashMap is written to the file.
