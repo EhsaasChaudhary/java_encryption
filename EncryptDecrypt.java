@@ -32,10 +32,10 @@ public class EncryptDecrypt {
     private static void executeOperation(int operation, String[] args) {
         switch (operation) {
             case 1:
-                Encryption.main(args);
+                PasswordEncryption.main(args);
                 break;
             case 2:
-                Decryption.main(args);
+                PasswordDecryption.main(args);
                 break;
             case 3:
                 // No action needed here, loop will exit
