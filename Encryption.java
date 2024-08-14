@@ -5,21 +5,30 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Encryption {
 
-    private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
+    // private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 
     public static void main(String[] args) {
         // default values
         int filenameLength = 4;
         int defaultmaxCodeLength = 10;
         int defaultminCodeLength = 3;
+        String FOLDER_PATH = "";
+        String password = "";
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the password to be encrypted: ");
-        String password = sc.nextLine();
+
+        if (args.length >= 2) {
+            try {
+                password = args[0];
+                FOLDER_PATH = args[1];
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number format in arguments. Using default values.");
+            }
+        } else {
+            System.out.println("Insufficient arguments provided. Using default values.");
+        }
 
         if (password.isEmpty()) {
             System.out.println("Password cannot be empty.");
@@ -27,7 +36,7 @@ public class Encryption {
         }
 
         String defaultFilename = generateRandomFilename(filenameLength) + ".txt";
-        generateFiles(defaultFilename, defaultmaxCodeLength, defaultminCodeLength, password);
+        generateFiles(defaultFilename, defaultmaxCodeLength, defaultminCodeLength, password,FOLDER_PATH);
 
         File targetFile = new File(FOLDER_PATH, defaultFilename);
         if (targetFile.exists() && targetFile.isFile()) {
@@ -61,12 +70,13 @@ public class Encryption {
     // Generate the file and hashmap containing the ecnryption logic by calling
     // generateFiles method
 
-    private static void generateFiles(String filename, int maxcodeLength, int mincodeLength, String password) {
+    private static void generateFiles(String filename, int maxcodeLength, int mincodeLength, String password, String folderpath) {
         FileGenerator.main(new String[] {
                 filename,
                 String.valueOf(maxcodeLength),
                 String.valueOf(mincodeLength),
-                password
+                password,
+                folderpath
         });
     }
 

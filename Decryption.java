@@ -4,18 +4,24 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Decryption {
 
-    private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
-
     public static void main(String[] args) {
         int defaultFilenameLength = 4;
+        String encryptedString = "";
+        String FOLDER_PATH = "";
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter the encrypted string to be decrypted: ");
-        String encryptedString = sc.nextLine();
+        if (args.length >= 2) {
+            try {
+                encryptedString = args[0];
+                FOLDER_PATH = args[1];
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid number format in arguments. Using default values.");
+            }
+        } else {
+            System.out.println("Insufficient arguments provided. Using default values.");
+        }
 
         if (encryptedString.isEmpty()) {
             System.out.println("Encrypted string cannot be empty.");

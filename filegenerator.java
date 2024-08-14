@@ -12,6 +12,9 @@ import java.util.Random;
 public class FileGenerator {
 
     public static void main(String[] args) {
+
+        String FOLDER_PATH = "";
+
         // Default values
         int numOfFiles = 1;
         String givenfilename= "";
@@ -25,6 +28,7 @@ public class FileGenerator {
                 maxcodeLength = Integer.parseInt(args[1]);
                 mincodeLength = Integer.parseInt(args[2]);
                 characString = args[3];
+                FOLDER_PATH = args[4];
             } catch (NumberFormatException e) {
                 System.err.println("Invalid number format in arguments. Using default values.");
             }
@@ -32,8 +36,7 @@ public class FileGenerator {
             System.out.println("Insufficient arguments provided. Using default values.");
         }
 
-        String directoryPath = "C:\\Ehsaas_college\\java_encription\\logicfiles";
-        File directory = new File(directoryPath);
+        File directory = new File(FOLDER_PATH);
 
         if (!directory.exists()) {
             directory.mkdirs();
