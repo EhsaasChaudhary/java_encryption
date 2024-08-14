@@ -18,10 +18,10 @@ public class EncryptDecrypt {
 
             switch (operation) {
                 case 1:
-                    PasswordEncryption.main(args);
+                    Encryption.main(args);
                     break;
                 case 2:
-                    PasswordDecryption.main(args);
+                    Decryption.main(args);
                     break;
                 case 3:
                     break;

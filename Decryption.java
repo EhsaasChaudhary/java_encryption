@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-public class PasswordDecryption {
+public class Decryption {
 
     private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 

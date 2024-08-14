@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
-public class PasswordEncryption {
+public class Encryption {
 
     private static final String FOLDER_PATH = "C:\\Ehsaas_college\\java_encription\\logicfiles";
 
